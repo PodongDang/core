@@ -5,10 +5,11 @@ import com.example.core.member.Member;
 import com.example.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
     private final MemberRepository memberRepository;
@@ -28,13 +29,12 @@ public class OrderServiceImpl implements OrderService{
     //new OrderServiceImpl()  스프링에서 호출
 
     //RequiredArgsConstructor가 생성해줌
-//    @Autowired //생성자가 1개면 Autowired 생략 가능
-//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-//        System.out.println("OrderServiceImpl");
-//        this.memberRepository = memberRepository;
-//        this.discountPolicy = discountPolicy;
-//    }
-
+    @Autowired //생성자가 1개면 Autowired 생략 가능
+    public OrderServiceImpl(MemberRepository memberRepository, @Qualifier("mainDiscountPolicy") DiscountPolicy discountPolicy) {
+        System.out.println("OrderServiceImpl");
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     //DIP, OCP를 위반 (interface 뿐만 아니라 구체 클래스에도 의존함)
 //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
